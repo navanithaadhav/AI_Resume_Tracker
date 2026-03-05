@@ -11,13 +11,13 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY .npmrc ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (skip postinstall since source isn't copied yet)
+RUN npm install --ignore-scripts
 
 # Copy application code
 COPY . .
 
-# Build TypeScript
+# Build TypeScript (run manually since we skipped postinstall)
 RUN npm run build
 
 # Remove dev dependencies after build
