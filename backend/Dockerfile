@@ -3,21 +3,14 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY tsconfig.json ./
+# Copy ALL files first (source needed for postinstall build)
+COPY . .
 
 # Create .npmrc for legacy peer deps
 RUN echo "legacy-peer-deps=true" > .npmrc
 
-# Install ALL dependencies (including devDependencies for build)
+# Install dependencies (postinstall will run build)
 RUN npm install
-
-# Copy source code
-COPY . .
-
-# Build TypeScript
-RUN npm run build
 
 # Create uploads directory
 RUN mkdir -p uploads
