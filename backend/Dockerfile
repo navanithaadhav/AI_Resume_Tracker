@@ -1,20 +1,26 @@
 # Use Node.js official image
 FROM node:18-alpine
 
+# Set memory limit for npm
+ENV NODE_OPTIONS="--max-old-space-size=512"
+
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with reduced memory usage
+RUN npm install --legacy-peer-deps --no-audit --no-fund
 
 # Copy application code
 COPY . .
 
 # Build TypeScript
 RUN npm run build
+
+# Remove dev dependencies after build
+RUN npm prune --production
 
 # Create uploads directory
 RUN mkdir -p uploads
