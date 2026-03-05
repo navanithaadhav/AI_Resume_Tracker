@@ -6,12 +6,13 @@ ENV NODE_OPTIONS="--max-old-space-size=512"
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and npmrc
 COPY package*.json ./
 COPY tsconfig.json ./
+COPY .npmrc ./
 
-# Install dependencies with reduced memory usage
-RUN npm install --legacy-peer-deps --no-audit --no-fund
+# Install dependencies
+RUN npm install
 
 # Copy application code
 COPY . .
