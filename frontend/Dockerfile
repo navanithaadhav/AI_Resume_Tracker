@@ -3,12 +3,19 @@ FROM node:18-alpine as build
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
 
+# Create .npmrc for legacy peer deps
+RUN echo "legacy-peer-deps=true" > .npmrc
+
+# Install dependencies
 RUN npm install
 
+# Copy source code
 COPY . .
 
+# Build React app
 RUN npm run build
 
 # Multi-stage build for production
