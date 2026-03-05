@@ -6,19 +6,14 @@ ENV NODE_OPTIONS="--max-old-space-size=512"
 
 WORKDIR /app
 
-# Copy package files and npmrc
-COPY package*.json ./
-COPY tsconfig.json ./
-COPY .npmrc ./
-
-# Install dependencies (skip postinstall since source isn't copied yet)
-RUN npm install --ignore-scripts
-
-# Copy application code
+# Copy ALL files first (simpler approach)
 COPY . .
 
-# Build TypeScript (run manually since we skipped postinstall)
-RUN npm run build
+# Install dependencies
+RUN npm install --legacy-peer-deps --ignore-scripts
+
+# Build TypeScript manually
+RUN npx tsc
 
 # Remove dev dependencies after build
 RUN npm prune --production
