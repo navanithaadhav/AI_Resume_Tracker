@@ -1,5 +1,9 @@
 # AI Resume Analyzer
 
+![CI](https://github.com/navanithaadhav/AI_Resume_Analyzer/actions/workflows/ci.yml/badge.svg)
+![Deploy Backend](https://github.com/YOUR_USERNAME/AI_Resume_Analyzer/actions/workflows/deploy-backend.yml/badge.svg)
+![Deploy Frontend](https://github.com/YOUR_USERNAME/AI_Resume_Analyzer/actions/workflows/deploy-frontend.yml/badge.svg)
+
 A full-stack AI-powered application that analyzes resumes against job descriptions using **Google Gemini AI** and LangChain.
 
 ## Features
