@@ -204,11 +204,123 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
       <div className="mt-8 pt-6 border-t">
         <button
           onClick={() => {
-            const dataStr = JSON.stringify({ analysis, suggestions }, null, 2);
-            const dataUri =
-              'data:application/json;charset=utf-8,' +
-              encodeURIComponent(dataStr);
-            const exportFileDefaultName = 'resume-analysis.json';
+            // Generate professional report
+            const date = new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            });
+            
+            let report = `
+═══════════════════════════════════════════════════════════════════
+                    RESUME ANALYSIS REPORT
+═══════════════════════════════════════════════════════════════════
+Generated: ${date}
+Powered by AI Resume Analyzer
+
+───────────────────────────────────────────────────────────────────
+                         MATCH SCORE
+───────────────────────────────────────────────────────────────────
+
+    ★  Overall Score: ${analysis.score}%  ★
+    
+    ${analysis.score >= 80 ? '✓ Excellent Match!' : analysis.score >= 60 ? '◐ Good Match - Room for Improvement' : '✗ Needs Significant Improvement'}
+
+Summary:
+${analysis.summary}
+
+───────────────────────────────────────────────────────────────────
+                         STRENGTHS
+───────────────────────────────────────────────────────────────────
+`;
+            if (analysis.strengths && analysis.strengths.length > 0) {
+              analysis.strengths.forEach((strength, idx) => {
+                report += `\n  ✓ ${strength}`;
+              });
+            } else {
+              report += '\n  No specific strengths identified.';
+            }
+
+            report += `
+
+───────────────────────────────────────────────────────────────────
+                      MISSING SKILLS
+───────────────────────────────────────────────────────────────────
+`;
+            if (analysis.missing_skills && analysis.missing_skills.length > 0) {
+              analysis.missing_skills.forEach((skill) => {
+                report += `\n  ✗ ${skill}`;
+              });
+            } else {
+              report += '\n  ✓ All required skills are present!';
+            }
+
+            report += `
+
+───────────────────────────────────────────────────────────────────
+                    ATS KEYWORDS TO ADD
+───────────────────────────────────────────────────────────────────
+`;
+            if (analysis.ats_keywords && analysis.ats_keywords.length > 0) {
+              report += '\nAdd these keywords to improve ATS compatibility:\n';
+              analysis.ats_keywords.forEach((keyword) => {
+                report += `\n  • ${keyword}`;
+              });
+            } else {
+              report += '\n  ✓ Good keyword coverage!';
+            }
+
+            if (suggestions) {
+              report += `
+
+───────────────────────────────────────────────────────────────────
+                    PRIORITY IMPROVEMENTS
+───────────────────────────────────────────────────────────────────
+`;
+              if (suggestions.priority_changes && suggestions.priority_changes.length > 0) {
+                suggestions.priority_changes.forEach((change, idx) => {
+                  report += `\n  ${idx + 1}. ${change}`;
+                });
+              }
+
+              report += `
+
+───────────────────────────────────────────────────────────────────
+                   CONTENT IMPROVEMENTS
+───────────────────────────────────────────────────────────────────
+`;
+              if (suggestions.content_improvements && suggestions.content_improvements.length > 0) {
+                suggestions.content_improvements.forEach((improvement) => {
+                  report += `\n  → ${improvement}`;
+                });
+              }
+
+              report += `
+
+───────────────────────────────────────────────────────────────────
+                     FORMATTING TIPS
+───────────────────────────────────────────────────────────────────
+`;
+              if (suggestions.formatting_tips && suggestions.formatting_tips.length > 0) {
+                suggestions.formatting_tips.forEach((tip) => {
+                  report += `\n  💡 ${tip}`;
+                });
+              }
+            }
+
+            report += `
+
+═══════════════════════════════════════════════════════════════════
+                     END OF REPORT
+═══════════════════════════════════════════════════════════════════
+
+Thank you for using AI Resume Analyzer!
+For best results, implement the suggestions above and re-analyze.
+
+`;
+            
+            const dataUri = 'data:text/plain;charset=utf-8,' + encodeURIComponent(report);
+            const exportFileDefaultName = `Resume_Analysis_Report_${new Date().toISOString().split('T')[0]}.txt`;
             const linkElement = document.createElement('a');
             linkElement.setAttribute('href', dataUri);
             linkElement.setAttribute('download', exportFileDefaultName);
@@ -216,7 +328,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
           }}
           className="w-full btn-secondary"
         >
-          📥 Download Analysis Results
+          📥 Download Analysis Report
         </button>
       </div>
     </div>
