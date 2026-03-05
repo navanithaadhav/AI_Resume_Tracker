@@ -5,8 +5,11 @@ import {
   ErrorResponse,
 } from '../types';
 
+// Use environment variable or fallback to Render URL
 const API_BASE_URL: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
+  process.env.REACT_APP_API_URL || 'https://ai-resume-tracker-joun.onrender.com/api';
+
+console.log('API URL:', API_BASE_URL); // Debug log
 
 /**
  * Upload resume file
