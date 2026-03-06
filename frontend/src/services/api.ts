@@ -6,8 +6,10 @@ import {
 } from '../types';
 
 // Use environment variable or fallback to Render URL
-const API_BASE_URL: string =
-  process.env.REACT_APP_API_URL ?? 'https://ai-resume-tracker-1.onrender.com/api';
+let API_BASE_URL: string = process.env.REACT_APP_API_URL ?? 'https://ai-resume-tracker-1.onrender.com/api';
+if (!API_BASE_URL.endsWith('/api')) {
+  API_BASE_URL = API_BASE_URL.replace(/\/$/, '') + '/api';
+}
 
 console.log('API URL:', API_BASE_URL); // Debug log
 
