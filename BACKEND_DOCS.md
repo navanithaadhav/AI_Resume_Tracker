@@ -6,7 +6,7 @@ The backend is built with **Node.js**, **Express**, and **TypeScript**, featurin
 - RESTful API endpoints
 - File upload and parsing
 - Google Gemini AI integration (`gemini-2.5-flash`)
-- Comprehensive error handling
+- Comprehensive error handling with Automatic Retries
 
 ## Project Structure
 
@@ -73,7 +73,7 @@ Manages Google Gemini AI integration:
 - generateImprovementSuggestions(resumeText, jobDescription): Promise<ImprovementSuggestions>
 ```
 
-Uses `gemini-2.5-flash` model with structured prompts to:
+Uses `gemini-2.5-flash` model (latest stable version in 2026) with structured prompts and exponential backoff retries to:
 - Calculate resume score
 - Identify missing skills
 - Generate improvement suggestions

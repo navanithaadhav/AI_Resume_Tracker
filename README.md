@@ -25,7 +25,7 @@ A full-stack AI-powered application that analyzes resumes against job descriptio
 - **Language**: TypeScript
 - **File Handling**: Multer, pdf-parse, mammoth (DOCX)
 - **AI**: Google Gemini API (`gemini-2.5-flash`), LangChain
-- **Other**: CORS, Dotenv
+- **Other**: CORS, Dotenv, Automatic Retries (Backoff)
 
 ### Frontend
 - **Framework**: React 18 with TypeScript
