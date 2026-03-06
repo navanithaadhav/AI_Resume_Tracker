@@ -1,22 +1,25 @@
-# Use Node.js official image
-FROM node:18-alpine
+# Use Node 20
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy ALL files first (source needed for postinstall build)
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies only
+RUN npm install --legacy-peer-deps
+
+# Copy source code
 COPY . .
 
-# Create .npmrc for legacy peer deps
-RUN echo "legacy-peer-deps=true" > .npmrc
+# Build TypeScript
+RUN npm run build
 
-# Install dependencies (postinstall will run build)
-RUN npm install
-
-# Create uploads directory
+# Create uploads folder
 RUN mkdir -p uploads
 
 # Expose port
-EXPOSE 5001
+EXPOSE 10000
 
-# Start application
+# Start app
 CMD ["node", "dist/server.js"]

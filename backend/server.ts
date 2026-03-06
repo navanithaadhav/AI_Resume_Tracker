@@ -11,25 +11,25 @@ import resumeRoutes from './src/routes/resumeRoutes';
 import analysisRoutes from './src/routes/analysisRoutes';
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 10000;
 
 // Middleware
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
-    
+
     const allowedOrigins = [
       'http://localhost:3000',
       'http://localhost:3001',
       process.env.CLIENT_URL || ''
     ].filter(Boolean);
-    
+
     // Allow any vercel.app subdomain
     if (origin.endsWith('.vercel.app') || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    
+
     callback(null, true); // Allow all for now, tighten in production
   },
   credentials: true
@@ -46,10 +46,16 @@ app.use('/api/resume', resumeRoutes);
 app.use('/api/analysis', analysisRoutes);
 
 // Health check endpoint
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'OK', message: 'AI Resume Analyzer Backend is running' });
+app.get('/', (req: Request, res: Response) => {
+  res.send('Server running');
 });
 
+app.get('/api/health', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'AI Resume Analyzer Backend is running'
+  });
+});
 // Custom error interface
 interface CustomError extends Error {
   status?: number;
@@ -58,7 +64,7 @@ interface CustomError extends Error {
 // Error handling middleware
 app.use((err: CustomError | multer.MulterError, req: Request, res: Response, next: NextFunction) => {
   console.error('Error:', err);
-  
+
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({ error: 'File size exceeds limit' });
