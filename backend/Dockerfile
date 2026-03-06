@@ -1,22 +1,25 @@
-# Use Node 20
-FROM node:20-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --legacy-peer-deps
+# Install ALL dependencies first
+RUN npm install
 
-# Copy source code
+# Copy project files
 COPY . .
 
 # Build TypeScript
 RUN npm run build
 
-# Expose port
+# Remove dev dependencies after build
+RUN npm prune --production
+
+# Create uploads folder
+RUN mkdir -p uploads
+
 EXPOSE 10000
 
-# Start app
-CMD ["node","dist/server.js"]
+CMD ["node", "dist/server.js"]
