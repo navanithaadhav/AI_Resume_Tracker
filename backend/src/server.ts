@@ -14,23 +14,27 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // Middleware
+
+
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
 
     const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      process.env.CLIENT_URL || ''
-    ].filter(Boolean);
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://airesumetracker.vercel.app"
+    ];
 
-    // Allow any vercel.app subdomain
-    if (origin.endsWith('.vercel.app') || allowedOrigins.includes(origin)) {
+    if (!origin) return callback(null, true);
+
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app")
+    ) {
       return callback(null, true);
     }
 
-    callback(null, true); // Allow all for now, tighten in production
+    return callback(new Error("CORS not allowed"), false);
   },
   credentials: true
 }));
