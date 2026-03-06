@@ -48,7 +48,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
       const formData = new FormData();
       formData.append('resume', file);
 
-      const response = await fetch('http://localhost:5001/api/resume/upload', {
+      const response = await fetch('http://localhost:10000/api/resume/upload', {
         method: 'POST',
         body: formData,
       });
@@ -106,9 +106,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
       <button
         onClick={handleUpload}
         disabled={!file || isLoading}
-        className={`w-full ${
-          isLoading || !file ? 'bg-gray-400 cursor-not-allowed' : 'btn-primary'
-        }`}
+        className={`w-full ${isLoading || !file ? 'bg-gray-400 cursor-not-allowed' : 'btn-primary'
+          }`}
       >
         {isLoading ? 'Uploading...' : 'Upload Resume'}
       </button>

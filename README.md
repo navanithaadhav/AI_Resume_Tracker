@@ -108,7 +108,7 @@ AI_Resume_Analyzer/
 
 4. Update `.env` with your Gemini API key:
    ```
-   PORT=5001
+   PORT=10000
    NODE_ENV=development
    CLIENT_URL=http://localhost:3001
    GEMINI_API_KEY=your_gemini_api_key_here
@@ -120,7 +120,7 @@ AI_Resume_Analyzer/
    ```bash
    npm run dev
    ```
-   The server will run on `http://localhost:5001`
+   The server will run on `http://localhost:10000`
 
 ### 2. Frontend Setup
 
@@ -144,7 +144,7 @@ AI_Resume_Analyzer/
 
 1. Check backend health:
    ```bash
-   curl http://localhost:5001/api/health
+   curl http://localhost:10000/api/health
    ```
    Expected response:
    ```json
@@ -261,7 +261,7 @@ AI_Resume_Analyzer/
 
 ### Backend (.env)
 ```
-PORT=5001                              # Server port
+PORT=1000                              # Server port
 NODE_ENV=development                   # Environment
 CLIENT_URL=http://localhost:3001      # Frontend URL for CORS
 GEMINI_API_KEY=your_key_here          # Google Gemini API key (FREE!)
@@ -271,7 +271,7 @@ UPLOAD_DIR=./uploads                  # Upload directory
 
 ### Frontend (optional .env)
 ```
-REACT_APP_API_URL=http://localhost:5001/api
+REACT_APP_API_URL=http://localhost:10000/api
 ```
 
 ## Error Handling
@@ -297,9 +297,9 @@ The application includes comprehensive error handling:
 
 ### Backend won't start
 ```bash
-# Check if port 5001 is in use
-netstat -ano | findstr :5001
-# Or on Linux/Mac: lsof -i :5001
+# Check if port 10000 is in use
+netstat -ano | findstr :10000
+# Or on Linux/Mac: lsof -i :10000
 ```
 
 ### Gemini API errors
@@ -308,7 +308,7 @@ netstat -ano | findstr :5001
 - Check your API quota at Google AI Studio
 
 ### Frontend can't connect to backend
-- Ensure backend is running on port 5001
+- Ensure backend is running on port 10000
 - Check CORS settings in `server.ts`
 - Verify `CLIENT_URL` matches your frontend URL in `.env`
 
@@ -369,7 +369,7 @@ npm run build
 
 # Docker
 docker build -t ai-resume-analyzer .
-docker run -p 5001:5001 --env-file .env ai-resume-analyzer
+docker run -p 10000:10000 --env-file .env ai-resume-analyzer
 
 # AWS EC2
 npm install -g pm2

@@ -22,7 +22,7 @@ npm install
 
 # Create .env file
 echo "GEMINI_API_KEY=AIzaSy..." > .env
-echo "PORT=5001" >> .env
+echo "PORT=10000" >> .env
 echo "NODE_ENV=development" >> .env
 echo "CLIENT_URL=http://localhost:3001" >> .env
 

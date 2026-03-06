@@ -39,7 +39,7 @@ const App: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5001/api/analysis/analyze', {
+      const response = await fetch('http://localhost:10000/api/analysis/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const App: React.FC = () => {
       const error = err as Error;
       setError(
         error.message ||
-          'Failed to analyze resume. Please check your backend connection.'
+        'Failed to analyze resume. Please check your backend connection.'
       );
       console.error('Analysis error:', err);
     } finally {
@@ -105,11 +105,10 @@ const App: React.FC = () => {
           <button
             onClick={handleAnalyze}
             disabled={isLoading || !resumeText || !jobDescription}
-            className={`flex-1 ${
-              isLoading || !resumeText || !jobDescription
+            className={`flex-1 ${isLoading || !resumeText || !jobDescription
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'btn-primary'
-            }`}
+              }`}
           >
             {isLoading ? 'Analyzing...' : '🔍 Analyze Resume'}
           </button>

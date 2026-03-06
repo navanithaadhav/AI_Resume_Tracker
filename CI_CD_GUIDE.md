@@ -90,7 +90,7 @@ Add these secrets:
 3. **Set Environment Variables in Render:**
    ```
    NODE_ENV=production
-   PORT=5001
+   PORT=10000
    GEMINI_API_KEY=your_api_key
    CLIENT_URL=https://your-frontend.vercel.app
    ```

@@ -132,7 +132,7 @@ Configures file upload:
 
 Required variables in `.env`:
 ```
-PORT=5001
+PORT=10000
 NODE_ENV=development
 CLIENT_URL=http://localhost:3001
 GEMINI_API_KEY=your_gemini_api_key_here

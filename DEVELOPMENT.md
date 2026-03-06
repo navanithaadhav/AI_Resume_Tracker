@@ -36,7 +36,7 @@ npm install
 cd backend
 npm run dev
 # Hot-reload enabled with ts-node
-# Server: http://localhost:5001
+# Server: http://localhost:10000
 ```
 
 ### Terminal 2 - Frontend

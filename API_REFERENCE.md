@@ -5,7 +5,7 @@ Complete API documentation for the AI Resume Analyzer backend.
 ## Base URL
 
 ```
-http://localhost:5001/api
+http://localhost:10000/api
 ```
 
 Production: Configure with your domain
@@ -65,7 +65,7 @@ Content-Type: multipart/form-data
 ```bash
 curl -X POST \
   -F "resume=@resume.pdf" \
-  http://localhost:5001/api/resume/upload
+  http://localhost:10000/api/resume/upload
 ```
 
 **Response (200 OK):**

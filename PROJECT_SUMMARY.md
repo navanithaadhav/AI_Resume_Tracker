@@ -49,11 +49,11 @@ npm install
 
 # Create .env file with your Gemini API key
 echo "GEMINI_API_KEY=your_key_here" > .env
-echo "PORT=5001" >> .env
+echo "PORT=10000" >> .env
 
 # Start server
 npm run dev
-# Server: http://localhost:5001
+# Server: http://localhost:10000
 ```
 
 ### 3. Frontend Setup
@@ -147,12 +147,12 @@ npm start
 ### Upload Resume
 ```bash
 curl -F "resume=@resume.pdf" \
-  http://localhost:5001/api/resume/upload
+  http://localhost:10000/api/resume/upload
 ```
 
 ### Analyze
 ```bash
-curl -X POST http://localhost:5001/api/analysis/analyze \
+curl -X POST http://localhost:10000/api/analysis/analyze \
   -H "Content-Type: application/json" \
   -d '{
     "resumeText": "Your resume text",
@@ -184,14 +184,14 @@ curl -X POST http://localhost:5001/api/analysis/analyze \
 **Backend (.env)**
 ```
 GEMINI_API_KEY=your_gemini_key_here
-PORT=5001
+PORT=10000
 CLIENT_URL=http://localhost:3001
 NODE_ENV=development
 ```
 
 **Frontend (.env.local)** - Optional
 ```
-REACT_APP_API_URL=http://localhost:5001/api
+REACT_APP_API_URL=http://localhost:10000/api
 ```
 
 ---
@@ -216,7 +216,7 @@ REACT_APP_API_URL=http://localhost:5001/api
 ### "Cannot connect to backend"
 ```bash
 # Ensure backend is running
-curl http://localhost:5001/api/health
+curl http://localhost:10000/api/health
 ```
 
 ### "Gemini API Error"
@@ -227,11 +227,11 @@ curl http://localhost:5001/api/health
 ### "Port already in use"
 ```bash
 # Windows
-netstat -ano | findstr :5001
+netstat -ano | findstr :10000
 taskkill /PID <PID> /F
 
 # Mac/Linux
-lsof -i :5001
+lsof -i :10000
 kill -9 <PID>
 ```
 

@@ -27,7 +27,7 @@ cd ../frontend
 docker build -t ai-resume-analyzer-frontend:1.0 .
 
 # Test locally
-docker run -p 5001:5001 \
+docker run -p 10000:10000 \
   -e GEMINI_API_KEY=your_key \
   -e NODE_ENV=development \
   ai-resume-analyzer-backend:1.0
@@ -78,7 +78,7 @@ cp /path/to/key.pem ssl/key.pem
 1. **Launch EC2 Instance**
    - AMI: Ubuntu 22.04 LTS
    - Instance type: t3.medium (or larger)
-   - Security groups: Allow ports 80, 443, 5001, 3000
+   - Security groups: Allow ports 80, 443, 10000, 3000
    - EBS: 20GB minimum
 
 2. **SSH into Instance**

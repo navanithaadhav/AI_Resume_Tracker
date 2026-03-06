@@ -24,7 +24,7 @@ npm install
 
 Create `.env` file:
 ```
-PORT=5001
+PORT=10000
 NODE_ENV=development
 CLIENT_URL=http://localhost:3001
 GEMINI_API_KEY=your_gemini_api_key_here
@@ -39,7 +39,7 @@ npm run dev
 
 Expected output:
 ```
-AI Resume Analyzer Backend running on port 5001
+AI Resume Analyzer Backend running on port 10000
 Environment: development
 ```
 
@@ -84,10 +84,10 @@ Test backend with curl:
 
 ```bash
 # Health check
-curl http://localhost:5001/api/health
+curl http://localhost:10000/api/health
 
 # Quick analysis
-curl -X POST http://localhost:5001/api/analysis/quick-score \
+curl -X POST http://localhost:10000/api/analysis/quick-score \
   -H "Content-Type: application/json" \
   -d '{
     "resumeText": "Your resume text here...",
@@ -100,11 +100,11 @@ curl -X POST http://localhost:5001/api/analysis/quick-score \
 ### Port Already in Use
 ```bash
 # Windows
-netstat -ano | findstr :5001
+netstat -ano | findstr :10000
 taskkill /PID <PID> /F
 
 # Mac/Linux
-lsof -i :5001
+lsof -i :10000
 kill -9 <PID>
 ```
 
@@ -114,7 +114,7 @@ kill -9 <PID>
 - Ensure GEMINI_API_KEY is set in `.env`
 
 ### "Cannot connect to backend"
-- Ensure backend is running on :5001
+- Ensure backend is running on :10000
 - Check firewall isn't blocking connections
 - Verify .env CLIENT_URL matches
 
