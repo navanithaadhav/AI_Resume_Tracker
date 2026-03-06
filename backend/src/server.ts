@@ -7,8 +7,8 @@ import path from 'path';
 import multer from 'multer';
 
 // Import routes
-import resumeRoutes from './src/routes/resumeRoutes';
-import analysisRoutes from './src/routes/analysisRoutes';
+import resumeRoutes from './routes/resumeRoutes';
+import analysisRoutes from './routes/analysisRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 10000;
