@@ -48,7 +48,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
       const formData = new FormData();
       formData.append('resume', file);
 
-      const response = await fetch('http://localhost:10000/api/resume/upload', {
+      const API_BASE_URL = process.env.REACT_APP_API_URL ?? 'https://ai-resume-tracker-1.onrender.com/api';
+      const response = await fetch(`${API_BASE_URL}/resume/upload`, {
         method: 'POST',
         body: formData,
       });

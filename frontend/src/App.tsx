@@ -39,7 +39,8 @@ const App: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:10000/api/analysis/analyze', {
+      const API_BASE_URL = process.env.REACT_APP_API_URL ?? 'https://ai-resume-tracker-1.onrender.com/api';
+      const response = await fetch(`${API_BASE_URL}/analysis/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,8 +107,8 @@ const App: React.FC = () => {
             onClick={handleAnalyze}
             disabled={isLoading || !resumeText || !jobDescription}
             className={`flex-1 ${isLoading || !resumeText || !jobDescription
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'btn-primary'
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'btn-primary'
               }`}
           >
             {isLoading ? 'Analyzing...' : '🔍 Analyze Resume'}

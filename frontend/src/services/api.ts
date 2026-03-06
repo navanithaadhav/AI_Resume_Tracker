@@ -88,7 +88,7 @@ export const getQuickScore = async (
  */
 export const checkBackendHealth = async (): Promise<boolean> => {
   try {
-    const response = await fetch('http://localhost:10000/api/health');
+    const response = await fetch(`${API_BASE_URL}/health`);
     return response.ok;
   } catch (error) {
     return false;
