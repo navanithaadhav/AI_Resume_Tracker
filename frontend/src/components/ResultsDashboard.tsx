@@ -16,189 +16,238 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
 
   if (!analysis) {
     return (
-      <div className="card fade-in">
-        <p className="text-gray-600 text-center py-8">
-          Upload a resume and enter a job description, then click analyze to see
-          results.
-        </p>
+      <div className="card fade-in-up">
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="w-20 h-20 bg-surface-100 rounded-full flex items-center justify-center mb-4">
+            <span className="text-4xl text-surface-300">📊</span>
+          </div>
+          <p className="text-surface-500 font-medium max-w-xs">
+            Ready for analysis. Please provide your documents above to view detailed insights.
+          </p>
+        </div>
       </div>
     );
   }
 
   const getScoreColor = (score: number): string => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 80) return 'text-success';
+    if (score >= 60) return 'text-warning';
+    return 'text-danger';
   };
 
   const getScoreBgColor = (score: number): string => {
-    if (score >= 80) return 'bg-green-100';
-    if (score >= 60) return 'bg-yellow-100';
-    return 'bg-red-100';
+    if (score >= 80) return 'bg-success/10 border-success/20';
+    if (score >= 60) return 'bg-warning/10 border-warning/20';
+    return 'bg-danger/10 border-danger/20';
+  };
+
+  const getScoreIndicator = (score: number): string => {
+    if (score >= 80) return 'Excellent';
+    if (score >= 60) return 'Good';
+    return 'Needs Work';
   };
 
   return (
-    <div className="card fade-in">
-      <h2 className="section-title">Analysis Results</h2>
+    <div className="card shadow-glass relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl" />
 
-      {/* Score Card */}
-      <div
-        className={`${getScoreBgColor(analysis.score)} rounded-lg p-6 mb-6 border-2 border-gray-300`}
-      >
-        <p className="text-gray-700 text-center mb-2">Resume Match Score</p>
-        <p
-          className={`text-5xl font-bold text-center ${getScoreColor(analysis.score)}`}
-        >
-          {analysis.score}%
-        </p>
-        <p className="text-gray-600 text-center mt-2 text-sm">
-          {analysis.summary}
-        </p>
-      </div>
+      <div className="relative z-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+          <div>
+            <h2 className="text-3xl font-bold text-surface-900 font-outfit">Intelligence Dashboard</h2>
+            <p className="text-surface-500 text-sm mt-1 uppercase tracking-widest font-bold">Analysis Profile</p>
+          </div>
+          <div className="flex items-center gap-3 bg-surface-100 p-1 rounded-xl">
+            <button className="px-4 py-2 bg-white shadow-sm rounded-lg text-xs font-bold text-surface-800 transition-all">Report</button>
+            <button className="px-4 py-2 text-xs font-bold text-surface-500 hover:text-surface-800 transition-all">Details</button>
+          </div>
+        </div>
 
-      {/* Tabs */}
-      <div className="flex border-b mb-6 gap-4 overflow-x-auto">
-        {['overview', 'skills', 'improvements', 'ats'].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 font-semibold whitespace-nowrap ${
-              activeTab === tab
-                ? 'border-b-2 border-blue-600 text-blue-600'
-                : 'text-gray-600 hover:text-gray-800'
-            }`}
-          >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </button>
-        ))}
-      </div>
+        {/* Score Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+          <div className={`col-span-1 lg:col-span-1 rounded-3xl p-8 border-2 ${getScoreBgColor(analysis.score)} flex flex-col items-center justify-center text-center`}>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4 text-surface-600">Match Integrity</span>
+            <div className="relative">
+              <svg className="w-32 h-32 transform -rotate-90">
+                <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-surface-200" />
+                <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray={2 * Math.PI * 58} strokeDashoffset={2 * Math.PI * 58 * (1 - analysis.score / 100)} className={getScoreColor(analysis.score)} strokeLinecap="round" />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className={`text-4xl font-bold font-outfit ${getScoreColor(analysis.score)} transition-all duration-1000`}>
+                  {analysis.score}%
+                </span>
+              </div>
+            </div>
+            <span className={`mt-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${getScoreBgColor(analysis.score)} ${getScoreColor(analysis.score)}`}>
+              {getScoreIndicator(analysis.score)}
+            </span>
+          </div>
 
-      {/* Tab Content */}
-      <div>
-        {/* Overview Tab */}
-        {activeTab === 'overview' && (
-          <div className="space-y-6">
-            {/* Strengths */}
-            <div>
-              <h3 className="font-bold text-lg mb-3 text-gray-800">
-                Strengths
-              </h3>
-              <div className="space-y-2">
-                {analysis.strengths && analysis.strengths.length > 0 ? (
-                  analysis.strengths.map((strength, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-3 p-3 bg-green-50 rounded border border-green-200"
-                    >
-                      <span className="badge-success">✓</span>
-                      <span className="text-gray-700">{strength}</span>
-                    </div>
-                  ))
+          <div className="col-span-1 lg:col-span-2 bg-surface-50 rounded-3xl p-8 border border-surface-100 flex flex-col justify-center">
+            <h3 className="text-lg font-bold text-surface-900 mb-2">Executive Summary</h3>
+            <p className="text-surface-600 leading-relaxed text-sm italic">
+              "{analysis.summary}"
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                <span className="text-xs font-medium text-surface-500">ATS Validated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_{colors.primary.DEFAULT}]" />
+                <span className="text-xs font-medium text-surface-500">AI Verified Match</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Improved Tabs Style */}
+        <div className="flex border-b border-surface-100 mb-8 gap-1 overflow-x-auto no-scrollbar scroll-smooth">
+          {[
+            { id: 'overview', icon: '📝', label: 'Overview' },
+            { id: 'skills', icon: '⚡', label: 'Technical Gap' },
+            { id: 'improvements', icon: '📈', label: 'Strategic Pivot' },
+            { id: 'ats', icon: '🤖', label: 'ATS Tuning' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-6 py-4 font-bold text-xs uppercase tracking-widest transition-all relative ${activeTab === tab.id
+                  ? 'text-primary'
+                  : 'text-surface-400 hover:text-surface-600 hover:bg-surface-50'
+                }`}
+            >
+              <span>{tab.icon}</span>
+              {tab.label}
+              {activeTab === tab.id && (
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-primary rounded-t-full shadow-[0_-2px_8px_rgba(5,150,105,0.4)]" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content with Premium Styles */}
+        <div className="min-h-[300px]">
+          {activeTab === 'overview' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 rounded-lg bg-success/10 text-success flex items-center justify-center">🏆</div>
+                  <h3 className="font-bold text-lg text-surface-900 font-outfit">Core Strengths</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {analysis.strengths && analysis.strengths.length > 0 ? (
+                    analysis.strengths.map((strength, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-3 p-4 bg-white border border-surface-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group"
+                      >
+                        <span className="w-6 h-6 rounded-full bg-success/10 text-success flex items-center justify-center text-xs font-bold group-hover:scale-110 transition-transform">✓</span>
+                        <span className="text-surface-700 text-sm font-medium leading-relaxed">{strength}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-surface-400">Analysis pending...</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'skills' && (
+            <div className="space-y-6 animate-fade-in-up">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 rounded-lg bg-danger/10 text-danger flex items-center justify-center">🎯</div>
+                  <h3 className="font-bold text-lg text-surface-900 font-outfit">Priority Gaps Identified</h3>
+                </div>
+                {analysis.missing_skills && analysis.missing_skills.length > 0 ? (
+                  <div className="flex flex-wrap gap-3">
+                    {analysis.missing_skills.map((skill, idx) => (
+                      <span key={idx} className="badge-error bg-danger/5 hover:bg-danger/10 transition-colors py-2 px-4">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 ) : (
-                  <p className="text-gray-600">No strengths identified</p>
+                  <div className="p-12 text-center bg-success/5 rounded-3xl border border-dashed border-success/30">
+                    <p className="text-success font-bold">Incredible Coverage! 🌟</p>
+                    <p className="text-success/70 text-sm mt-1">Your resume aligns with every technical requirement detected.</p>
+                  </div>
                 )}
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Skills Tab */}
-        {activeTab === 'skills' && (
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-bold text-lg mb-3 text-red-600">
-                Missing Skills
-              </h3>
-              {analysis.missing_skills &&
-              analysis.missing_skills.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {analysis.missing_skills.map((skill, idx) => (
-                    <span key={idx} className="badge-error">
-                      {skill}
-                    </span>
-                  ))}
+          {activeTab === 'improvements' && (
+            <div className="space-y-8 animate-fade-in-up">
+              {suggestions && suggestions.priority_changes && (
+                <div>
+                  <h3 className="font-bold text-lg mb-6 text-surface-900 font-outfit flex items-center gap-2">
+                    <span className="text-primary">01.</span> Critical Adjustments
+                  </h3>
+                  <div className="space-y-3">
+                    {suggestions.priority_changes.map((change, idx) => (
+                      <div key={idx} className="p-4 bg-surface-50 border-l-4 border-primary rounded-r-xl text-surface-700 text-sm font-medium">
+                        {change}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ) : (
-                <p className="text-gray-600">All skills match!</p>
+              )}
+              {suggestions && suggestions.content_improvements && (
+                <div>
+                  <h3 className="font-bold text-lg mb-6 text-surface-900 font-outfit flex items-center gap-2">
+                    <span className="text-secondary">02.</span> Strategic Enhancements
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {suggestions.content_improvements.map((improvement, idx) => (
+                      <div key={idx} className="flex gap-3 p-4 border border-surface-100 rounded-xl bg-white shadow-sm hover:border-secondary/20 transition-all">
+                        <span className="text-secondary">↗</span>
+                        <p className="text-surface-600 text-sm">{improvement}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Improvements Tab */}
-        {activeTab === 'improvements' && (
-          <div className="space-y-4">
-            {suggestions && suggestions.priority_changes && (
+          {activeTab === 'ats' && (
+            <div className="space-y-8 animate-fade-in-up">
               <div>
-                <h3 className="font-bold text-lg mb-3 text-gray-800">
-                  Priority Changes
-                </h3>
-                <ol className="list-decimal list-inside space-y-2">
-                  {suggestions.priority_changes.map((change, idx) => (
-                    <li key={idx} className="text-gray-700">
-                      {change}
-                    </li>
-                  ))}
-                </ol>
+                <h3 className="font-bold text-lg mb-6 text-surface-900 font-outfit">Keyword Optimization</h3>
+                {analysis.ats_keywords && analysis.ats_keywords.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {analysis.ats_keywords.map((keyword, idx) => (
+                      <span key={idx} className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-xl text-sm font-bold shadow-sm">
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-surface-400">Keyword profile looks solid.</p>
+                )}
               </div>
-            )}
-            {suggestions && suggestions.content_improvements && (
-              <div>
-                <h3 className="font-bold text-lg mb-3 text-gray-800">
-                  Content Improvements
-                </h3>
-                <ul className="list-disc list-inside space-y-2">
-                  {suggestions.content_improvements.map((improvement, idx) => (
-                    <li key={idx} className="text-gray-700">
-                      {improvement}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ATS Tab */}
-        {activeTab === 'ats' && (
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-bold text-lg mb-3 text-gray-800">
-                ATS Keywords to Add
-              </h3>
-              {analysis.ats_keywords && analysis.ats_keywords.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {analysis.ats_keywords.map((keyword, idx) => (
-                    <span key={idx} className="badge-success">
-                      {keyword}
-                    </span>
-                  ))}
+              {suggestions && suggestions.formatting_tips && (
+                <div className="bg-surface-900 rounded-3xl p-8 text-white relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl" />
+                  <h3 className="font-bold text-lg mb-6 font-outfit relative z-10">Formatting Intelligence</h3>
+                  <div className="space-y-4 relative z-10">
+                    {suggestions.formatting_tips.map((tip, idx) => (
+                      <div key={idx} className="flex items-start gap-3 text-surface-300 text-sm bg-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors">
+                        <span className="text-primary text-xl">💡</span>
+                        <p>{tip}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ) : (
-                <p className="text-gray-600">No additional keywords needed</p>
               )}
             </div>
-            {suggestions && suggestions.formatting_tips && (
-              <div className="mt-6">
-                <h3 className="font-bold text-lg mb-3 text-gray-800">
-                  Formatting Tips
-                </h3>
-                <ul className="space-y-2">
-                  {suggestions.formatting_tips.map((tip, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-3 p-3 bg-blue-50 rounded border border-blue-200"
-                    >
-                      <span className="badge-success">💡</span>
-                      <span className="text-gray-700">{tip}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
 
       {/* Export Button */}
       <div className="mt-8 pt-6 border-t">
@@ -210,7 +259,7 @@ const ResultsDashboard: React.FC<ResultsDashboardProps> = ({
               month: 'long',
               day: 'numeric'
             });
-            
+
             let report = `
 ═══════════════════════════════════════════════════════════════════
                     RESUME ANALYSIS REPORT
@@ -318,7 +367,7 @@ Thank you for using AI Resume Analyzer!
 For best results, implement the suggestions above and re-analyze.
 
 `;
-            
+
             const dataUri = 'data:text/plain;charset=utf-8,' + encodeURIComponent(report);
             const exportFileDefaultName = `Resume_Analysis_Report_${new Date().toISOString().split('T')[0]}.txt`;
             const linkElement = document.createElement('a');
